@@ -1,4 +1,3 @@
-
 import { useEffect, useState } from "react";
 
 export default function PWAUpdatePrompt() {
@@ -9,35 +8,45 @@ export default function PWAUpdatePrompt() {
 
     let registration;
 
-    const checkForUpdate = async () => {
-      registration = await navigator.serviceWorker.register(
-        `${import.meta.env.BASE_URL}sw.js`
-      );
-      
-      await registration.update();
-
-      if (registration.waiting && navigator.serviceWorker.controller) {
+    const checkWaitingWorker = () => {
+      if (registration?.waiting && navigator.serviceWorker.controller) {
         setWaitingWorker(registration.waiting);
       }
+    };
 
-      registration.addEventListener("updatefound", () => {
-        const worker = registration.installing;
+    const handleUpdateFound = () => {
+      const worker = registration.installing;
 
-        worker.addEventListener("statechange", () => {
-          if (
-            worker.state === "installed" &&
-            navigator.serviceWorker.controller
-          ) {
-            setWaitingWorker(worker);
-          }
-        });
+      if (!worker) return;
+
+      worker.addEventListener("statechange", () => {
+        if (
+          worker.state === "installed" &&
+          navigator.serviceWorker.controller
+        ) {
+          checkWaitingWorker();
+        }
       });
     };
 
-    checkForUpdate().catch(console.error);
+    const registerWorker = async () => {
+      registration = await navigator.serviceWorker.register(
+        `${import.meta.env.BASE_URL}sw.js`
+      );
+
+      registration.addEventListener("updatefound", handleUpdateFound);
+
+      checkWaitingWorker();
+
+      await registration.update();
+
+      checkWaitingWorker();
+    };
+
+    registerWorker().catch(console.error);
 
     return () => {
-      registration?.removeEventListener("updatefound", () => {});
+      registration?.removeEventListener("updatefound", handleUpdateFound);
     };
   }, []);
 
