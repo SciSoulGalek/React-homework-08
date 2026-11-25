@@ -1,10 +1,9 @@
-
 {
   "name": "Questlog - Game Tracker",
   "short_name": "Questlog",
   "description": "Track your games, manage your library and discover new adventures.",
-  "start_url": "/React-homework-07/",
-  "scope": "/React-homework-07/",
+  "start_url": "/React-homework-08/",
+  "scope": "/React-homework-08/",
   "display": "standalone",
   "theme_color": "#101014",
   "background_color": "#101014",
