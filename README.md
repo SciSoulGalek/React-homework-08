@@ -23,12 +23,15 @@ Questlog is a React-based game tracking application. Discover games, build a per
 - React 19
 - Vite
 - React Router 7
+- Redux Toolkit
+- React Redux
 - Firebase Authentication
 - JavaScript
 - CSS
 - Browser localStorage
 - Service Workers and Cache Storage
 - Web App Manifest
+- GitHub Actions
 - GitHub Pages
 
 ## Installation
@@ -36,8 +39,8 @@ Questlog is a React-based game tracking application. Discover games, build a per
 Clone the repository:
 
 ```bash
-git clone https://github.com/SciSoulGalek/React-homework-07.git
-cd React-homework-07
+git clone https://github.com/SciSoulGalek/React-homework-08.git
+cd React-homework-08
 ```
 
 Install dependencies:
@@ -48,7 +51,7 @@ npm install
 
 Create a `.env.local` file in the project root and configure Firebase:
 
-```
+```env
 VITE_FIREBASE_API_KEY=your_api_key
 VITE_FIREBASE_AUTH_DOMAIN=your_project.firebaseapp.com
 VITE_FIREBASE_PROJECT_ID=your_project_id
@@ -74,6 +77,20 @@ Preview the production build:
 ```bash
 npm run preview
 ```
+
+## State Management
+
+Questlog uses Redux Toolkit and React Redux for centralized application state management.
+
+The Redux store is organized into separate slices:
+
+- **Games:** manages the game catalog, game details, loading states, errors, and game creation.
+- **Library:** manages the user's library, game status changes, and library operations.
+- **Dashboard:** manages data used to display gaming statistics.
+
+Asynchronous operations are handled with Redux Toolkit's `createAsyncThunk`. Selectors provide components with the required state, while memoized selectors help avoid unnecessary recalculations.
+
+Components access the store through custom Redux hooks. This separates state management and asynchronous logic from the UI components.
 
 ## Data and Caching
 
@@ -118,8 +135,13 @@ scripts/
 src/
 ├── components/
 ├── contexts/
+├── hooks/
 ├── layouts/
 ├── pages/
+├── redux/
+│   ├── games/
+│   ├── library/
+│   └── dashboard/
 ├── services/
 │   ├── authService.js
 │   ├── cacheService.js
@@ -133,7 +155,9 @@ src/
 
 The application is deployed to GitHub Pages using GitHub Actions.
 
-Live application: https://scisoulgalek.github.io/React-homework-07/
+Live application: https://scisoulgalek.github.io/React-homework-08/
+
+GitHub repository: https://github.com/SciSoulGalek/React-homework-08
 
 GitHub Pages uses a generated `404.html` file to support direct navigation and page refreshes on React Router routes.
 
